@@ -1,0 +1,20 @@
+- name: Install Kibana
+  apt:
+    name: kibana
+    state: latest
+  become: true
+
+- name: Install new Kibana configuration file
+  template:
+    src: ./kibana.yml.j2
+    dest: /etc/kibana/kibana.yml
+  become: true
+  notify:
+    - restart kibana
+
+- name: Enable the Kibana service
+  systemd:
+    name: kibana
+    enabled: yes
+    state: started
+  become: true

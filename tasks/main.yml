@@ -1,0 +1,4 @@
+- include: openjdk-8-jre.yml
+- include: elastic-repo.yml
+- include: elastic-backend.yml
+- include: kibana.yml
