@@ -6,7 +6,7 @@
 
 input {
   udp {
-    host => "{{ elastic_backend_ip }}"
+    host => "{{ elastic_backend_external_ip }}"
     port => "{{ logstash_udp_port }}"
     codec => "json"
     type => "rsyslog"
@@ -24,7 +24,7 @@ filter { }
 output {
   if [type] == "rsyslog" {
     elasticsearch {
-      hosts => [ "{{ elastic_backend_ip }}:{{ elasticsearch_http_port }}" ]
+      hosts => [ "127.0.0.1:{{ elasticsearch_http_port }}" ]
     }
   }
 }
