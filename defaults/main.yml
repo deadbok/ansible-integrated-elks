@@ -1,10 +1,11 @@
-elastic_backend_external_ip: "{{ ansible_host }}"
-kibana_ip: "{{ ansible_host }}"
-elastic_backend_ip: "127.0.0.1"
+elastic_backend_external_host: "{{ ansible_host }}"
+kibana_host: "[::0]"
+elastic_backend_host: "localhost"
 
 logstash_udp_port: "10514"
 logstash_http_port: "9600"
 elasticsearch_http_port: "9200"
 kibana_port: "5601"
+rsyslog_udp_port: "514"
 
-elasticsearch_url: "http://127.0.0.1:{{ elasticsearch_http_port }}"
+elasticsearch_url: "http://localhost:{{ elasticsearch_http_port }}"

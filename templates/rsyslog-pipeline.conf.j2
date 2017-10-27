@@ -1,4 +1,4 @@
-# This input block will listen on {{ elastic_backend_ip }}:{{ logstash_udp_port }}
+# This input block will listen on {{ elastic_backend_host }}:{{ logstash_udp_port }}
 # for logs to come in.
 # host should be an IP on the Logstash server.
 # codec => "json" indicates that we expect the lines we're receiving to be in JSON format
@@ -6,7 +6,7 @@
 
 input {
   udp {
-    host => "{{ elastic_backend_external_ip }}"
+    host => "{{ elastic_backend_external_host }}"
     port => "{{ logstash_udp_port }}"
     codec => "json"
     type => "rsyslog"
@@ -24,7 +24,7 @@ filter { }
 output {
   if [type] == "rsyslog" {
     elasticsearch {
-      hosts => [ "127.0.0.1:{{ elasticsearch_http_port }}" ]
+      hosts => [ "{{ elastic_backend_host }}:{{ elasticsearch_http_port }}" ]
     }
   }
 }
