@@ -1,30 +1,26 @@
-# This input block will listen on {{ elastic_backend_host }}:{{ logstash_udp_port }}
-# for logs to come in.
-# host should be an IP on the Logstash server.
-# codec => "json" indicates that we expect the lines we're receiving to be in JSON format
-# type => "rsyslog" is an optional identifier to help identify messaging streams in the pipeline.
-
 input {
-  udp {
-    host => "{{ elastic_backend_external_host }}"
-    port => "{{ logstash_udp_port }}"
-    codec => "json"
-    type => "rsyslog"
-  }
+    udp {
+      port => {{ logstash_udp_port }}
+      host => "{{ elastic_backend_host }}"
+      codec => "json"
+      type => "syslog"
+    }
 }
 
 # This is an empty filter block.  You can later add other filters here to further process
 # your log lines
 
-filter { }
+filter {
+#grok {
+#        match => { "message" => "%{SYSLOGTIMESTAMP:time} %{SYSLOGHOST:host} %{SYSLOGPROG:program} %{GREEDYDATA:message}" }
+#    }
+}
 
 # This output block will send all events of type "rsyslog" to Elasticsearch at the configured
 # host and port into daily indices of the pattern, "rsyslog-YYYY.MM.DD"
 
 output {
-  if [type] == "rsyslog" {
     elasticsearch {
       hosts => [ "{{ elastic_backend_host }}:{{ elasticsearch_http_port }}" ]
     }
-  }
 }

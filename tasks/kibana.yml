@@ -4,6 +4,13 @@
     state: latest
   become: true
 
+- name: Add kibana user to elasticsearch group
+  user:
+    name: kibana
+    append: yes
+    groups: elasticsearch
+  become: true
+
 - name: Install new Kibana configuration file
   template:
     src: ./kibana.yml.j2

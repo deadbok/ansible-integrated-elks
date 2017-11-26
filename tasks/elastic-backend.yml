@@ -1,14 +1,11 @@
 - name: Install Elasticsearch
   apt:
-    name: elasticsearch
+    name: "{{ item }}"
     state: latest
   become: true
-
-- name: Install Logstash
-  apt:
-    name: logstash
-    state: latest
-  become: true
+  with_items:
+     - elasticsearch
+     - logstash
 
 - name: Install new Elasticsearch configuration file
   template:
@@ -55,6 +52,13 @@
     name: elasticsearch
     enabled: yes
     state: started
+  become: true
+
+- name: Change group of /var/log/elasticsearch to elasticsearch
+  file:
+    path: /var/log/elasticsearch
+    mode: 0774
+    group: elasticsearch
   become: true
 
 - name: Enable the Logstash service

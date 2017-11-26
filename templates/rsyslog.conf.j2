@@ -21,9 +21,12 @@ $UDPServerRun {{ rsyslog_udp_port }}
 #$InputTCPServerRun 514
 
 
+
 ###########################
 #### GLOBAL DIRECTIVES ####
 ###########################
+
+$PreserveFQDN on
 
 #
 # Use traditional timestamp format.
@@ -60,7 +63,7 @@ $IncludeConfig /etc/rsyslog.d/*.conf
 #
 auth,authpriv.*			/var/log/auth.log
 *.*;auth,authpriv.none		-/var/log/syslog
-#cron.*				/var/log/cron.log
+cron.*				/var/log/cron.log
 daemon.*			-/var/log/daemon.log
 kern.*				-/var/log/kern.log
 lpr.*				-/var/log/lpr.log
@@ -121,8 +124,8 @@ daemon.*;mail.*;\
 	*.=notice;*.=warn	|/dev/xconsole
 
 # This writes logs to seperate directories one for each IP.
-#$template FILENAME,"/var/log/%fromhost-ip%/syslog.log"
-#*.* ?FILENAME
+$template FILENAME,"/var/log/hosts/%fromhost%/syslog.log"
+*.* ?FILENAME
 
 #This writes the messages in debug format to a file, makes it possible
 #to verify which values are in which properties.
